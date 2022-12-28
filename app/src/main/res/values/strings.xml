@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Material3AppTemplate</string>
+
+    <string name="staticErrorMessage">Something went wrong ! Please try again after sometime.</string>
+    <string name="welcome">Welcome</string>
+    <string name="retry">Retry</string>
+    <string name="action_settings">Settings</string>
+
+
+    <!-- settings fragment -->
+    <string name="settingsFragmentProfile">Profile</string>
+    <string name="settingsFragmentLogout">Logout</string>
+
+</resources>

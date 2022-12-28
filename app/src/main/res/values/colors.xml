@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+
+    <color name="slate_900">#0f172a</color>
+    <color name="slate_800">#1e293b</color>
+    <color name="slate_700">#334155</color>
+    <color name="slate_600">#475569</color>
+    <color name="slate_500">#64748b</color>
+    <color name="slate_400">#94a3b8</color>
+    <color name="slate_300">#cbd5e1</color>
+    <color name="slate_200">#e2e8f0</color>
+    <color name="slate_100">#f1f5f9</color>
+    <color name="slate_50">#f8fafc</color>
+
+
+    <color name="blue_900">#1e3a8a</color>
+    <color name="blue_800">#1e40af</color>
+    <color name="blue_700">#1d4ed8</color>
+    <color name="blue_600">#2563eb</color>
+    <color name="blue_500">#3b82f6</color>
+    <color name="blue_400">#60a5fa</color>
+    <color name="blue_300">#93c5fd</color>
+    <color name="blue_200">#bfdbfe</color>
+    <color name="blue_100">#dbeafe</color>
+    <color name="blue_50">#eff6ff</color>
+
+
+    <color name="green_900">#14532d</color>
+    <color name="green_800">#166534</color>
+    <color name="green_700">#15803d</color>
+    <color name="green_600">#16a34a</color>
+    <color name="green_500">#22c55e</color>
+    <color name="green_400">#4ade80</color>
+    <color name="green_300">#86efac</color>
+    <color name="green_200">#bbf7d0</color>
+    <color name="green_100">#dcfce7</color>
+
+
+    <color name="red_900">#7f1d1d</color>
+    <color name="red_800">#991b1b</color>
+    <color name="red_700">#b91c1c</color>
+    <color name="red_600">#dc2626</color>
+    <color name="red_500">#ef4444</color>
+    <color name="red_400">#f87171</color>
+    <color name="red_300">#fca5a5</color>
+    <color name="red_200">#fecaca</color>
+    <color name="red_100">#fee2e2</color>
+    <color name="red_50">#fef2f2</color>
+
+
+    <color name="indigo_900">#312e81</color>
+    <color name="indigo_800">#3730a3</color>
+    <color name="indigo_700">#4338ca</color>
+    <color name="indigo_600">#4f46e5</color>
+    <color name="indigo_500">#6366f1</color>
+    <color name="indigo_400">#818cf8</color>
+    <color name="indigo_300">#a5b4fc</color>
+    <color name="indigo_200">#c7d2fe</color>
+    <color name="indigo_100">#e0e7ff</color>
+    <color name="indigo_50">#eef2ff</color>
+
+
+    <color name="yellow_50">#fefce8</color>
+    <color name="yellow_100">#fef9c3</color>
+    <color name="yellow_200">#fef08a</color>
+    <color name="yellow_300">#fde047</color>
+    <color name="yellow_400">#facc15</color>
+    <color name="yellow_500">#eab308</color>
+    <color name="yellow_600">#ca8a04</color>
+    <color name="yellow_700">#a16207</color>
+    <color name="yellow_800">#854d0e</color>
+    <color name="yellow_900">#713f12</color>
+
+
+</resources>
