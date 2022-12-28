@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1081089373168",
+    "firebase_url": "https://mridx01-default-rtdb.firebaseio.com",
+    "project_id": "mridx01",
+    "storage_bucket": "mridx01.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1081089373168:android:a359162af5bc19385de335",
+        "android_client_info": {
+          "package_name": "com.mridx.androidtemplate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1081089373168-4pnhu6nv4deln30pdaksn7dee0t4opj0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDS-b-nM5t7yewBrm2OsquCEoJ4J-Gs7FM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1081089373168-4pnhu6nv4deln30pdaksn7dee0t4opj0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
