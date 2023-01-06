@@ -128,7 +128,7 @@ dependencies {
     implementation 'io.github.mridx:WaterMarkDialog:1.2'
 
     //image cropping library
-    //implementation 'com.github.CanHub:Android-Image-Cropper:4.2.1'
+    implementation 'com.github.CanHub:Android-Image-Cropper:4.2.1'
 
     //json api deserialization
     def izzy_version = "1.0.0"
