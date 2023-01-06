@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Material3AppTemplate</string>
+    <string name="app_powered_by">Sumato Globaltech Pvt. Ltd.</string>
 
     <string name="staticErrorMessage">Something went wrong ! Please try again after sometime.</string>
     <string name="welcome">Welcome</string>
@@ -9,6 +10,10 @@
 
     <!-- settings fragment -->
     <string name="settingsFragmentProfile">Profile</string>
+    <string name="settingsFragmentChangePassword">Change Password</string>
     <string name="settingsFragmentLogout">Logout</string>
+    <string name="settingsFragmentPrivacyPolicy">Privacy Policy</string>
+    <string name="settingsFragmentAppVersion">App Version</string>
+    <string name="settingsFragmentPoweredBy">Powered by</string>
 
 </resources>

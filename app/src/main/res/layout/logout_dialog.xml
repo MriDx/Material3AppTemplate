@@ -25,8 +25,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Are you sure want to logout ?"
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

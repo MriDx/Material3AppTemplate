@@ -13,7 +13,7 @@ import com.mridx.androidtemplate.R
 
 
 open class RoundedBottomSheetDialog: BottomSheetDialogFragment(){
-    //override fun getTheme(): Int = R.style.BottomSheetDialogTheme
+   // override fun getTheme(): Int = R.style.BottomSheetDialogTheme
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = BottomSheetDialog(requireContext(), theme)
 
     /*fun expendDialog(activity: FragmentActivity?, logTag: String, performOnError: () -> Unit){
