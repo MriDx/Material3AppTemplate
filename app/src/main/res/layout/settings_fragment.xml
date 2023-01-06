@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -18,17 +19,17 @@
             android:layout_height="wrap_content"
             android:id="@+id/settingsGroupOne"
             tools:listitem="@layout/settings_item_view"
+            android:overScrollMode="never"
             />
 
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/slate_200"
+            android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             android:visibility="invisible"
-            />
+            app:dividerThickness="0.5dp" />
 
 
 

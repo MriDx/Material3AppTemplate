@@ -99,14 +99,7 @@ class SettingsFragment : Fragment() {
     private fun handleActionItemClicked(item: SettingsItemModel) {
         when (item.actionId) {
             "profile" -> {
-                //findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToProfileFragment2())
-                BottomMessageDialog.Builder()
-                    .setMessage("Everything is done")
-                    .setOnDone {
-                        it.dismiss()
-                        findNavController().popBackStack()
-                    }.show(childFragmentManager, "")
-
+                findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToProfileFragment())
             }
             "logout" -> {
                 //show logout confirmation button

@@ -22,4 +22,6 @@ interface ApiHelper {
 
     suspend fun uploadFile(body: MultipartBody.Part): Response<FileUploadModel>
 
+    suspend fun changeUserPassword(body: RequestBody): Response<ResponseModel<JsonElement>>
+
 }

@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_webViewFragment"
             app:destination="@id/webViewFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <dialog
         android:id="@+id/logoutDialog"
@@ -38,5 +41,9 @@
             android:name="webViewModel"
             app:argType="com.sumato.ino.officer.data.local.model.web_view.WebViewModel" />
     </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.mridx.androidtemplate.presentation.user.fragment.profile.fragment.ProfileFragment"
+        android:label="Profile" />
 
 </navigation>

@@ -32,6 +32,13 @@ interface ApiService {
 
 
     @GsonInterface
+    @POST("update-password")
+    suspend fun changeUserPassword(
+        @Body body: RequestBody
+    ): Response<ResponseModel<JsonElement>>
+
+
+    @GsonInterface
     @Multipart
     @POST("uploads")
     suspend fun uploadFile(@Part body: MultipartBody.Part): Response<FileUploadModel>

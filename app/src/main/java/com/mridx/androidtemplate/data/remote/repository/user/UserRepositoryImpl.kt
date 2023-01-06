@@ -229,5 +229,32 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun changePassword(params: JSONObject): Resource<ResponseModel<JsonElement>> {
+        return withContext(Dispatchers.IO) {
+            try {
+
+                val requestBody = params.toRequestBody()
+
+                val response = apiHelper.changeUserPassword(requestBody)
+
+                if (!response.isSuccessful) {
+                    //
+                    val errorResponse =
+                        gson.fromJson(response.errorBody()?.charStream(), ErrorResponse::class.java)
+                    return@withContext Resource.error(
+                        data = ResponseModel.withError(errorResponse = errorResponse),
+                        message = errorResponse.message
+                    )
+                }
+
+                Resource.success(data = response.body())
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Resource.error(message = parseException(e))
+            }
+        }
+    }
+
 
 }

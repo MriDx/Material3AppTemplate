@@ -24,6 +24,9 @@ class ApiHelperImpl @Inject constructor(private val apiService: ApiService) : Ap
     override suspend fun getUserDetails(): Response<ResponseModel<UserDetailsModel>> =
         apiService.getUserDetails()
 
+    override suspend fun changeUserPassword(body: RequestBody): Response<ResponseModel<JsonElement>> =
+        apiService.changeUserPassword(body)
+
     override suspend fun uploadFile(body: MultipartBody.Part): Response<FileUploadModel> =
         apiService.uploadFile(body)
 

@@ -10,7 +10,7 @@ import com.mridx.androidtemplate.data.remote.model.user.UserDetailsModel
 import com.mridx.androidtemplate.data.remote.model.utils.Resource
 import com.mridx.androidtemplate.domain.repository.base.BaseRepository
 
-interface UserRepository {
+interface UserRepository : BaseRepository {
 
 
     suspend fun login(params: JSONObject): Resource<ResponseModel<AuthResponseModel>>
@@ -26,5 +26,7 @@ interface UserRepository {
     suspend fun getUserDetails(authToken: String): Resource<ResponseModel<UserDetailsModel>>
 
     suspend fun getUserDetails(): Resource<ResponseModel<UserDetailsModel>>
+
+    suspend fun changePassword(params: JSONObject): Resource<ResponseModel<JsonElement>>
 
 }
