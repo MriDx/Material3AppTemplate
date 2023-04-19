@@ -4,10 +4,6 @@ import android.graphics.Typeface
 
 sealed class MediaUploadFragmentEvent {
 
-    object EnableGPS : MediaUploadFragmentEvent()
-
-    object StartLocationUpdates : MediaUploadFragmentEvent()
-
     data class Upload(
         val filePath: String,
         val processedImagePath: String,

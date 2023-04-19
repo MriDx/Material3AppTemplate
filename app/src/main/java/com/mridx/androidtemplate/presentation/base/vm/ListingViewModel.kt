@@ -12,13 +12,6 @@ import kotlinx.coroutines.launch
 abstract class ListingViewModel<Event, State> : BaseViewModel<Event, State>() {
 
 
-    /*var uiError: ObservableField<UIError> = ObservableField(UIError.hide())
-
-    open fun setUIError(uiError: UIError) {
-        this.uiError.set(uiError)
-        this.uiError.notifyChange()
-    }*/
-
 
     private var errorState_ = Channel<UIError>()
     val errorState = errorState_.receiveAsFlow()

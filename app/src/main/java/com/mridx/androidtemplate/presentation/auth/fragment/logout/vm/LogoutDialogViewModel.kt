@@ -16,7 +16,7 @@ class LogoutDialogViewModel @Inject constructor(
 ) : BaseViewModel<LogoutDialogEvent, LogoutDialogState>() {
 
 
-    override fun handleEvent(event: LogoutDialogEvent) {
+    override fun addEvent(event: LogoutDialogEvent) {
         when (event) {
             is LogoutDialogEvent.Logout -> {
                 logoutUser()
@@ -43,5 +43,6 @@ class LogoutDialogViewModel @Inject constructor(
 
         }
     }
+
 
 }

@@ -16,7 +16,7 @@ class LoginFragmentViewModel @Inject constructor(
 ) : BaseViewModel<LoginFragmentEvent, LoginFragmentState>() {
 
 
-    override fun handleEvent(event: LoginFragmentEvent) {
+    override fun addEvent(event: LoginFragmentEvent) {
         when (event) {
             is LoginFragmentEvent.LoginUser -> {
                 //

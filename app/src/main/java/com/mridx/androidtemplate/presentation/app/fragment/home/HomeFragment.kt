@@ -10,11 +10,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.mridx.androidtemplate.databinding.HomeFragmentBinding
 import com.mridx.androidtemplate.presentation.app.fragment.home.event.HomeFragmentEvent
 import com.mridx.androidtemplate.presentation.app.fragment.home.state.HomeFragmentState
 import com.mridx.androidtemplate.presentation.app.fragment.home.vm.HomeFragmentViewModel
+import com.mridx.androidtemplate.presentation.base.fragment.base.BaseFragment
 import com.mridx.androidtemplate.presentation.utils.PlaceHolderDrawableHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -23,10 +25,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
-
-    private var binding_: HomeFragmentBinding? = null
-    private val binding get() = binding_!!
+class HomeFragment : BaseFragment<HomeFragmentBinding>() {
 
     private val viewModel by viewModels<HomeFragmentViewModel>()
 
@@ -47,25 +46,25 @@ class HomeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.viewState.collectLatest { state ->
+                    viewModel.state.collectLatest { state ->
                         handleViewState(state)
                     }
                 }
                 launch {
-                    viewModel.handleEvent(event = HomeFragmentEvent.FetchUser)
+                    viewModel.addEvent(event = HomeFragmentEvent.FetchUser)
                 }
                 launch {
                     withContext(Dispatchers.Main) {
                         binding.swipeRefreshLayout.isRefreshing = true
                     }
-                    viewModel.handleEvent(event = HomeFragmentEvent.FetchContents)
+                    viewModel.addEvent(event = HomeFragmentEvent.FetchContents)
                 }
             }
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             //
-            viewModel.handleEvent(event = HomeFragmentEvent.FetchContents)
+            viewModel.addEvent(event = HomeFragmentEvent.FetchContents)
         }
 
 
@@ -103,10 +102,5 @@ class HomeFragment : Fragment() {
 
     }
 
-
-    override fun onDestroyView() {
-        binding_ = null
-        super.onDestroyView()
-    }
 
 }

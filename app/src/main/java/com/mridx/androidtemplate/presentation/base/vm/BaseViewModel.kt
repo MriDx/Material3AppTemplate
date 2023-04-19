@@ -9,14 +9,14 @@ import kotlinx.coroutines.withContext
 abstract class BaseViewModel<Event, State> : ViewModel() {
 
 
-    private var viewState_ = Channel<State>()
-    val viewState = viewState_.receiveAsFlow()
+    private var state_ = Channel<State>()
+    val state = state_.receiveAsFlow()
 
-    abstract fun handleEvent(event: Event)
+    abstract fun addEvent(event: Event)
 
     open suspend fun sendState(state: State) {
         withContext(Dispatchers.IO) {
-            viewState_.send(state)
+            state_.send(state)
         }
     }
 

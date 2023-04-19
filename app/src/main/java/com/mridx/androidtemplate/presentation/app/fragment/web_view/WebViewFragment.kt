@@ -13,14 +13,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.mridx.androidtemplate.databinding.WebViewFragmentBinding
+import com.mridx.androidtemplate.presentation.base.fragment.base.BaseFragment
 import com.sumato.ino.officer.data.local.model.web_view.WebViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class WebViewFragment : Fragment() {
+class WebViewFragment : BaseFragment<WebViewFragmentBinding>() {
 
-    private var binding_: WebViewFragmentBinding? = null
-    private val binding get() = binding_!!
 
     private lateinit var webViewModel: WebViewModel
 
@@ -81,10 +80,6 @@ class WebViewFragment : Fragment() {
 
     }
 
-    override fun onDestroyView() {
-        binding_ = null
-        super.onDestroyView()
-    }
 
 
 }

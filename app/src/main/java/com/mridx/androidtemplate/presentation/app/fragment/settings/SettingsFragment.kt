@@ -16,15 +16,14 @@ import com.mridx.androidtemplate.databinding.SettingsFragmentBinding
 import com.mridx.androidtemplate.databinding.SettingsItemViewBinding
 import com.mridx.androidtemplate.di.qualifier.BaseUrl
 import com.mridx.androidtemplate.di.qualifier.SettingsItems
+import com.mridx.androidtemplate.presentation.base.fragment.base.BaseFragment
 import com.mridx.androidtemplate.presentation.dialog.bottom_message.BottomMessageDialog
 import com.sumato.ino.officer.data.local.model.web_view.WebViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SettingsFragment : Fragment() {
+class SettingsFragment : BaseFragment<SettingsFragmentBinding>() {
 
-    private var binding_: SettingsFragmentBinding? = null
-    private val binding get() = binding_!!
 
     @Inject
     @SettingsItems
@@ -116,10 +115,5 @@ class SettingsFragment : Fragment() {
         }
     }
 
-
-    override fun onDestroyView() {
-        binding_ = null
-        super.onDestroyView()
-    }
 
 }

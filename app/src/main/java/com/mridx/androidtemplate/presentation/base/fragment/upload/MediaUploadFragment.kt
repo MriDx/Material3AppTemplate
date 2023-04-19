@@ -1,39 +1,30 @@
-package com.sumato.ino.officer.presentation.app.fragment.media.upload
+package com.mridx.androidtemplate.presentation.base.fragment.upload
 
 import android.Manifest
 import android.app.Activity
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.provider.Settings
 import android.view.View
-import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.ActivityResult
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.net.toUri
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationSettingsStatusCodes
 import com.google.android.material.snackbar.Snackbar
-import com.mridx.androidtemplate.BuildConfig
-import com.mridx.androidtemplate.di.qualifier.PermissionPreference
 import com.mridx.androidtemplate.domain.use_case.location.GpsResult
+import com.mridx.androidtemplate.presentation.base.fragment.media.MediaFragment
 import com.mridx.androidtemplate.utils.*
-import com.mridx.androidtemplate.presentation.image_cropper.activity.ImageCropActivity
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.*
-import javax.inject.Inject
 
 
 /**
@@ -45,13 +36,8 @@ import javax.inject.Inject
  */
 
 
-@AndroidEntryPoint
-open class MediaUploadFragment : Fragment() {
-
-
-    @Inject
-    @PermissionPreference
-    lateinit var permissionPreferences: SharedPreferences
+open class MediaUploadFragment<ViewBinding>
+    (private val permissionPreferences: SharedPreferences) : MediaFragment<ViewBinding>() {
 
 
     private val requiredPermissions = mapOf(
@@ -62,72 +48,10 @@ open class MediaUploadFragment : Fragment() {
     )
 
 
-    private val requestPermissionsLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { grantedPermissions ->
-            val allPermissionGranted = grantedPermissions.values.all { it }
-            if (!allPermissionGranted) {
-                //ask to allow all permissions
-                checkRequiredPermissions()
-            } else {
-                //continue image picker
-                openImageChoiceDialog()
-            }
-        }
-
     /**
      * file path to capture and save file in case of camera capture.
      */
     private var currentFileToCapture: String? = null
-
-    private val cameraCaptureLauncher =
-        registerForActivityResult(ActivityResultContracts.TakePicture()) { captured ->
-            if (captured && currentFileToCapture != null) {
-                /**
-                 * if the image been captured successfully,
-                 * will check if the file exists just to be safe.
-                 * and will launch image cropping window if the captured file exists.
-                 */
-                //handle the file to show or manipulate
-                val file = File(currentFileToCapture!!)
-                if (file.exists()) {
-                    imageCropFragmentLauncher.launch(file.toUri())
-                }
-            } else {
-                view?.let {
-                    infoSnackbar(
-                        view = it,
-                        message = "Could not capture image. Please check your permissions and try again later.",
-                        duration = Snackbar.LENGTH_LONG,
-                        action = "OK"
-                    )
-                }
-            }
-        }
-
-    private val imagePickerLauncher =
-        registerForActivityResult(ActivityResultContracts.GetContent()) {
-            imageCropFragmentLauncher.launch(it)
-        }
-
-    private val imageCropFragmentLauncher =
-        registerForActivityResult(ImageCropActivity.CropImageActivityContract()) {
-            if (it != null) {
-                val file = File(it!!.path)
-                compressImage(file)
-            }
-        }
-
-    private val appSettingsLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            checkRequiredPermissions()
-        }
-
-    private val gpsExceptionResolverLauncher =
-        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {
-            if (it.resultCode != Activity.RESULT_OK) {
-                showEnableGPSService()
-            }
-        }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -143,7 +67,7 @@ open class MediaUploadFragment : Fragment() {
 
 
     open fun enableGPS() {
-        //viewModel.handleEvent(event = MediaUploadFragmentEvent.EnableGPS)
+        //viewModel.addEvent(event = MediaUploadFragmentEvent.EnableGPS)
     }
 
 
@@ -155,12 +79,11 @@ open class MediaUploadFragment : Fragment() {
      */
     open fun handleLocationServiceDisableUseCase(gpsResult: GpsResult) {
         if (gpsResult.exception != null) {
-            val statusCode = (gpsResult.exception as ApiException).statusCode
-            when (statusCode) {
+            when ((gpsResult.exception as ApiException).statusCode) {
                 LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
-                    (gpsResult.exception as? ResolvableApiException)?.resolution?.intentSender?.let {
-                        gpsExceptionResolverLauncher.launch(IntentSenderRequest.Builder(it).build())
-                    } ?: showEnableGPSService()
+                    if (!handleGPSException(gpsResult = gpsResult)) {
+                        showEnableGPSService()
+                    }
                 }
                 LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {
                     //open settings
@@ -189,8 +112,6 @@ open class MediaUploadFragment : Fragment() {
     }
 
 
-
-
     /**
      * This will show a dialog listing the options.
      */
@@ -203,10 +124,10 @@ open class MediaUploadFragment : Fragment() {
             when (i) {
                 0 -> {
                     val fileToCapture = getTmpFileUri()
-                    cameraCaptureLauncher.launch(fileToCapture)
+                    launchCamera(fileToCapture)
                 }
                 1 -> {
-                    imagePickerLauncher.launch("image/*")
+                    launchImagePicker()
                 }
             }
         }.setPositiveButton("Cancel") { d, i ->
@@ -376,10 +297,7 @@ open class MediaUploadFragment : Fragment() {
                 d.dismiss()
                 if (i == POSITIVE_BTN) {
                     //open app settings
-                    appSettingsLauncher.launch(Intent().apply {
-                        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                        data = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
-                    })
+                    launchAppSettings()
                 } else {
                     handlePermissionReAskCancel()
                 }
@@ -408,7 +326,60 @@ open class MediaUploadFragment : Fragment() {
                 putBoolean(it.key, true)
             }
         }
-        requestPermissionsLauncher.launch(requiredPermissions.values.toTypedArray())
+        requestPermissions(requiredPermissions.values.toTypedArray())
     }
+
+    override fun permissionsResults(permissions: Map<String, Boolean>) {
+        val allPermissionGranted = permissions.values.all { it }
+        if (!allPermissionGranted) {
+            //ask to allow all permissions
+            checkRequiredPermissions()
+        } else {
+            //continue image picker
+            openImageChoiceDialog()
+        }
+    }
+
+    override fun onGpsExceptionActivityResult(activityResult: ActivityResult) {
+        if (activityResult.resultCode != Activity.RESULT_OK) {
+            showEnableGPSService()
+        }
+    }
+
+    override fun onAppSettingsActivityResult(activityResult: ActivityResult) {
+        checkRequiredPermissions()
+    }
+
+    override fun onCameraCaptured(isCaptured: Boolean) {
+        if (isCaptured && currentFileToCapture != null) {
+            /**
+             * if the image been captured successfully,
+             * will check if the file exists just to be safe.
+             * and will launch image cropping window if the captured file exists.
+             */
+            //handle the file to show or manipulate
+            val file = File(currentFileToCapture!!)
+            if (file.exists()) {
+                launchImageCropper(imageUri = file.toUri())
+            }
+        } else {
+            view?.let {
+                infoSnackbar(
+                    view = it,
+                    message = "Could not capture image.",
+                    duration = Snackbar.LENGTH_LONG,
+                    action = "OK"
+                )
+            }
+        }
+    }
+
+    override fun onCroppedResult(fileUri: Uri?) {
+        if (fileUri != null) {
+            val file = File(fileUri!!.path)
+            compressImage(file)
+        }
+    }
+
 
 }

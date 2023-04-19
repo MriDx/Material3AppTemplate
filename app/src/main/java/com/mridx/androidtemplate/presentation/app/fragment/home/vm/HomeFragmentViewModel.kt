@@ -19,7 +19,8 @@ class HomeFragmentViewModel @Inject constructor(
 ) : BaseViewModel<HomeFragmentEvent, HomeFragmentState>() {
 
 
-    override fun handleEvent(event: HomeFragmentEvent) {
+
+    override fun addEvent(event: HomeFragmentEvent) {
         when (event) {
             is HomeFragmentEvent.FetchUser -> {
                 fetchLocalUser()
@@ -49,6 +50,8 @@ class HomeFragmentViewModel @Inject constructor(
 
         }
     }
+
+
 
 
 }

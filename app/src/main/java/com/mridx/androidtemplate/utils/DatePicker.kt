@@ -24,7 +24,11 @@ object DatePicker {
         return DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(s))
     }
 
-
+    @Deprecated(
+        message = "it restricts multiple date formation",
+        replaceWith = ReplaceWith(expression = "showPickerRawValue"),
+        level = DeprecationLevel.WARNING
+    )
     fun showPicker(
         fragmentManager: FragmentManager,
         title: String? = null,
@@ -51,5 +55,36 @@ object DatePicker {
         }
         datePicker.show(fragmentManager, "MATERIAL_DATE_PICKER")
     }
+
+
+    private fun formatToDate(timestamp: Long): Date {
+        return Date(timestamp)
+    }
+
+    fun showPickerRawValue(
+        fragmentManager: FragmentManager,
+        title: String? = null,
+        listener: (date: Date?, cancelled: Boolean) -> Unit
+    ) {
+        val datePicker =
+            MaterialDatePicker.Builder.datePicker()
+                .setTitleText(title ?: "Select Date")
+                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .build()
+        datePicker.addOnPositiveButtonClickListener {
+            it?.let { s ->
+                val date = formatToDate(timestamp = s)
+                listener.invoke(date, false)
+                datePicker.dismiss() //dismiss
+            }
+        }
+        datePicker.addOnNegativeButtonClickListener {
+            //
+            listener.invoke(null, true)
+            datePicker.dismiss() //dismiss
+        }
+        datePicker.show(fragmentManager, "MATERIAL_DATE_PICKER")
+    }
+
 
 }

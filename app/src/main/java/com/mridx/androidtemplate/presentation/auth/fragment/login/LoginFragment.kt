@@ -22,13 +22,11 @@ import com.mridx.androidtemplate.databinding.LoginFragmentBinding
 import com.mridx.androidtemplate.presentation.auth.fragment.login.event.LoginFragmentEvent
 import com.mridx.androidtemplate.presentation.auth.fragment.login.state.LoginFragmentState
 import com.mridx.androidtemplate.presentation.auth.fragment.login.vm.LoginFragmentViewModel
+import com.mridx.androidtemplate.presentation.base.fragment.base.BaseFragment
 import com.mridx.androidtemplate.utils.errorSnackbar
 
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
-
-    private var binding_: LoginFragmentBinding? = null
-    private val binding get() = binding_!!
+class LoginFragment : BaseFragment<LoginFragmentBinding>() {
 
 
     private val viewModel by viewModels<LoginFragmentViewModel>()
@@ -51,7 +49,7 @@ class LoginFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.viewState.collectLatest { state ->
+                    viewModel.state.collectLatest { state ->
                         handleViewState(state)
                     }
                 }
@@ -104,7 +102,7 @@ class LoginFragment : Fragment() {
             return
         }
 
-        viewModel.handleEvent(event)
+        viewModel.addEvent(event)
 
     }
 
@@ -158,9 +156,5 @@ class LoginFragment : Fragment() {
 
     }
 
-    override fun onDestroyView() {
-        binding_ = null
-        super.onDestroyView()
-    }
 
 }

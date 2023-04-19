@@ -53,7 +53,7 @@ class LogoutDialog : RoundedBottomSheetDialog() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.viewState.collectLatest { state ->
+                    viewModel.state.collectLatest { state ->
                         handleViewState(state)
                     }
                 }
@@ -106,7 +106,7 @@ class LogoutDialog : RoundedBottomSheetDialog() {
             logoutBtn.isVisible = false
             progressbar.isVisible = true
         }
-        viewModel.handleEvent(event = LogoutDialogEvent.Logout)
+        viewModel.addEvent(event = LogoutDialogEvent.Logout)
     }
 
 

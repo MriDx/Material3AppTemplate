@@ -20,6 +20,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -28,11 +29,14 @@ import com.google.gson.JsonSyntaxException
 import com.mridx.androidtemplate.BuildConfig
 import com.mridx.androidtemplate.R
 import com.mridx.androidtemplate.utils.APP_SETTINGS
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.net.UnknownHostException
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -61,10 +65,8 @@ fun storeImage(image: Bitmap, pictureFile: File): File? {
         return pictureFile
     } catch (e: FileNotFoundException) {
         e.printStackTrace()
-        Log.d("mridx", "File not found: ${e.message}")
     } catch (e: IOException) {
         e.printStackTrace()
-        Log.d("mridx", "Error accessing file: ${e.message}")
     }
     return null
 }
@@ -264,7 +266,7 @@ fun Fragment.copyToClipboard(dataToCopy: String, title: String) {
     requireContext().copyToClipboard(dataToCopy, title)
 }
 
-fun Context.openInBrower(url: String) {
+fun Context.openInBrowser(url: String) {
     val intent = Intent(Intent.ACTION_VIEW)
     intent.data = Uri.parse(url)
     startActivity(intent)
@@ -300,15 +302,14 @@ fun String.replaceNewLine(): String {
     return this.replace("\n\n", "<p>").replace("\n", "<br>")
 }
 
-
 fun successSnackbar(
     view: View,
     message: String,
     duration: Int = Snackbar.LENGTH_LONG,
     action: String? = null,
     onActionClicked: (() -> Unit)? = null
-) {
-    Snackbar.make(view, message, duration).apply {
+): Snackbar {
+    val snackbar = Snackbar.make(view, message, duration).apply {
         animationMode = Snackbar.ANIMATION_MODE_SLIDE
         if (action != null) {
             setAction(action) {
@@ -318,7 +319,9 @@ fun successSnackbar(
         }
         setBackgroundTint(ContextCompat.getColor(view.context, R.color.green_200))
         setTextColor(ContextCompat.getColor(view.context, R.color.green_800))
-    }.show()
+    }
+    snackbar.show()
+    return snackbar
 }
 
 
@@ -328,8 +331,8 @@ fun errorSnackbar(
     duration: Int = Snackbar.LENGTH_LONG,
     action: String? = null,
     onActionClicked: (() -> Unit)? = null
-) {
-    Snackbar.make(view, message, duration).apply {
+): Snackbar {
+    val snackbar = Snackbar.make(view, message, duration).apply {
         animationMode = Snackbar.ANIMATION_MODE_SLIDE
         if (action != null) {
             setAction(action) {
@@ -339,7 +342,9 @@ fun errorSnackbar(
         }
         setBackgroundTint(ContextCompat.getColor(view.context, R.color.red_200))
         setTextColor(ContextCompat.getColor(view.context, R.color.red_800))
-    }.show()
+    }
+    snackbar.show()
+    return snackbar
 }
 
 fun infoSnackbar(
@@ -348,8 +353,8 @@ fun infoSnackbar(
     duration: Int = Snackbar.LENGTH_LONG,
     action: String? = null,
     onActionClicked: (() -> Unit)? = null
-) {
-    Snackbar.make(view, message, duration).apply {
+): Snackbar {
+    val snackbar = Snackbar.make(view, message, duration).apply {
         animationMode = Snackbar.ANIMATION_MODE_SLIDE
         if (action != null) {
             setAction(action) {
@@ -359,7 +364,9 @@ fun infoSnackbar(
         }
         //setBackgroundTint(ContextCompat.getColor(view.context, R.color.red_200))
         //setTextColor(ContextCompat.getColor(view.context, R.color.red_800))
-    }.show()
+    }
+    snackbar.show()
+    return snackbar
 }
 
 
@@ -367,10 +374,48 @@ fun Any?.isNull(): Boolean {
     return this == null
 }
 
+fun Any?.isNotNull(): Boolean {
+    return this != null
+}
+
 
 fun openMapAtLocation(latitude: String, longitude: String): Intent {
     val url = "https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}"
     return Intent(Intent.ACTION_VIEW, Uri.parse(url))
+}
+
+fun <T> List<T>.toJSONArray(transform: (item: T) -> JSONObject) = JSONArray().apply {
+    repeat(size) { index ->
+        put(transform.invoke(this@toJSONArray[index]))
+    }
+}
+
+fun Context.defaultAction(data: String) {
+    val intent = Intent(Intent.ACTION_VIEW)
+    intent.data = Uri.parse(data)
+    startActivity(intent)
+}
+
+fun Fragment.defaultAction(data: String) {
+    requireContext().defaultAction(data)
+}
+
+
+fun String.isPhoneNumber(): Boolean {
+    return this.length == 10 &&
+            this.isDigitsOnly()
+            &&
+            arrayOf(
+                "6",
+                "7",
+                "8",
+                "9"
+            ).contains(this.first().toString())
+}
+
+
+fun Date.toUploadableDate(): String {
+    return SimpleDateFormat("yyyy-MM-dd", Locale.US).format(this)
 }
 
 

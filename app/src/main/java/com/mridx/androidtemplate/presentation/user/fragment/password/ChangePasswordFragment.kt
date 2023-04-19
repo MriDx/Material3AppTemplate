@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.mridx.androidtemplate.databinding.ChangePasswordBinding
+import com.mridx.androidtemplate.presentation.base.fragment.base.BaseFragment
 import com.mridx.androidtemplate.presentation.dialog.bottom_message.BottomMessageDialog
 import com.mridx.androidtemplate.presentation.user.fragment.password.vm.ChangePasswordFragmentViewModel
 import com.mridx.androidtemplate.utils.errorSnackbar
@@ -25,11 +26,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ChangePasswordFragment : Fragment() {
+class ChangePasswordFragment : BaseFragment<ChangePasswordBinding>() {
 
-
-    private var binding_: ChangePasswordBinding? = null
-    private val binding get() = binding_!!
 
     private val viewModel by viewModels<ChangePasswordFragmentViewModel>()
 
@@ -51,7 +49,7 @@ class ChangePasswordFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.viewState.collectLatest { state ->
+                    viewModel.state.collectLatest { state ->
                         handleState(state)
                     }
                 }
@@ -145,7 +143,7 @@ class ChangePasswordFragment : Fragment() {
             return
         }
 
-        viewModel.handleEvent(event = event)
+        viewModel.addEvent(event = event)
 
     }
 
@@ -181,12 +179,6 @@ class ChangePasswordFragment : Fragment() {
         }
 
         return valid
-    }
-
-
-    override fun onDestroyView() {
-        binding_ = null
-        super.onDestroyView()
     }
 
 }

@@ -18,17 +18,15 @@ import com.mridx.androidtemplate.databinding.ProfileFragmentBinding
 import com.mridx.androidtemplate.presentation.app.fragment.home.event.HomeFragmentEvent
 import com.mridx.androidtemplate.presentation.app.fragment.home.state.HomeFragmentState
 import com.mridx.androidtemplate.presentation.app.fragment.home.vm.HomeFragmentViewModel
+import com.mridx.androidtemplate.presentation.base.fragment.base.BaseFragment
 import com.mridx.androidtemplate.presentation.utils.PlaceHolderDrawableHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseFragment<ProfileFragmentBinding>() {
 
-
-    private var binding_: ProfileFragmentBinding? = null
-    private val binding get() = binding_!!
 
 
     private val viewModel by viewModels<HomeFragmentViewModel>()
@@ -53,12 +51,12 @@ class ProfileFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.viewState.collectLatest { state ->
+                    viewModel.state.collectLatest { state ->
                         handleState(state)
                     }
                 }
                 launch {
-                    viewModel.handleEvent(event = HomeFragmentEvent.FetchUser)
+                    viewModel.addEvent(event = HomeFragmentEvent.FetchUser)
                 }
             }
         }
@@ -117,12 +115,6 @@ class ProfileFragment : Fragment() {
         }
     }
 
-
-
-    override fun onDestroyView() {
-        binding_ = null
-        super.onDestroyView()
-    }
 
 
 }

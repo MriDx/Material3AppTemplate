@@ -18,7 +18,7 @@ class ChangePasswordFragmentViewModel @Inject constructor(
 
 
 
-    override fun handleEvent(event: ChangePasswordFragmentEvent) {
+    override fun addEvent(event: ChangePasswordFragmentEvent) {
         when (event) {
             is ChangePasswordFragmentEvent.Change -> {
                 changePassword(event)
