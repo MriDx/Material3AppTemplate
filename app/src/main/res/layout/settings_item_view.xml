@@ -17,6 +17,7 @@
             android:id="@+id/iconView"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_marginTop="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
@@ -32,27 +33,27 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
-            tools:text="App Version"
-            android:textAppearance="?attr/textAppearanceTitleSmall"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iconView"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0" />
+            app:layout_constraintVertical_bias="0"
+            tools:text="App Version" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/subHeadingView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
-            tools:text="3.2.0"
             android:textAppearance="?attr/textAppearanceBodySmall"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iconView"
             app:layout_constraintTop_toBottomOf="@id/headingView"
-            app:layout_constraintVertical_bias="0" />
+            app:layout_constraintVertical_bias="0"
+            tools:text="3.2.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
